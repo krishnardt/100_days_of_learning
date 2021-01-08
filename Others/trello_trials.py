@@ -12,8 +12,8 @@ from trello.base import TrelloBase
 from trello.compat import force_str
 
 
-api_key = 'e79a43182b11924160fe436215b24879'
-api_secret = '3da79cd4d4ba22e5c41d024b9b872c89e34a63ab9f52184a60c363790515d628'
+api_key = '**************************************'
+api_secret = '**********************************************************'
 
 
 trelloboard = Board(name='python_trial')
