@@ -265,14 +265,9 @@ def get_lists(board_name):
     
     return my_list
     
-
-
-
-
-    
+   
 my_board_id = get_board_id('python_trial')
 print(my_board_id)
-
 
 
 def create_list(board_id, list_name):
@@ -291,7 +286,6 @@ def create_list(board_id, list_name):
     response = requests.request("POST", url, params=querystring)
     list_id = response.json()["id"]
     return list_id
-
 
 
 def create_list_by_board_name(board_name, list_name):
@@ -326,9 +320,7 @@ def create_list_by_board_name(board_name, list_name):
         return "there is alist with name %s.", list_name
 
 
-
 create_list_by_board_name('python_trial', 'python_basics')
-
 
 
 def get_list_id_from_list_name(board_name, list_name):
@@ -342,7 +334,6 @@ def get_list_id_from_list_name(board_name, list_name):
     return my_list
 
 
-
 def create_card(board_name, list_name, card_name):
     list_id = get_list_id_from_list_name(list_name)
     url = f"https://api.trello.com/1/cards"
@@ -350,6 +341,3 @@ def create_card(board_name, list_name, card_name):
     response = requests.request("POST", url, params=querystring)
     card_id = response.json()["id"]
     return card_id
-
-
-
