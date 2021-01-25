@@ -6,11 +6,16 @@ from pathlib import Path
 from tempfile import NamedTemporaryFile
 import tempfile
 import shutil, os
+from pydantic import BaseModel, EmailStr
 
 
 
 
 app = FastAPI()
+
+
+class FilePath(BaseModel):
+	path : str
 
 
 
@@ -19,7 +24,7 @@ async def valid_content_length(content_length: int = Header(..., lt=500)):
 
 
 
-@app.post("/files/")
+@app.post("/files")
 async def create_files(files: List[bytes] = File(...), file_size: int = Depends(valid_content_length)):
     return {"file_sizes": [len(file) for file in files]}
 
@@ -61,7 +66,13 @@ async def create_files(files: List[bytes] = File(...), file_size: int = Depends(
 async def create_upload_files(files: List[UploadFile] = File(...)):#, file_size: int = Depends(valid_content_length)):
     # return {"filenames": {file.filename:[file.filename,Path(file.filename).suffix, tempfile.mkstemp(prefix='parser_', suffix=extension)[1], file.content_type] for file in files}}
     """
+    parameters:
     file_size: checking the size for all files..
+    files: multiple files
+    @return:
+    if fails due to overall upload file size increases, it throws the exception with the type of file it has issue.
+    if succeeds, copies the file to the destination folder.
+
     """
     file_details = {}
     file_size = 100000
@@ -88,6 +99,7 @@ async def create_upload_files(files: List[UploadFile] = File(...)):#, file_size:
             	)
     else:
 	    for file in files:
+	    	#temp: IO = NamedTemporaryFile(delete=False)
 	    	extension = Path(file.filename).suffix
 	    	_, path = tempfile.mkstemp(prefix='parser_', suffix=extension)
 	    	file_details[file.filename] = [extension, path, file.content_type]
